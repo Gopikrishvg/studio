@@ -77,3 +77,11 @@ MIDDLEWARE = [
 ]
 
 sudo a2ensite studio
+
+# Github Command
+git clone
+git status
+git add . or all
+git commit -m "message"
+git push
+git pull
