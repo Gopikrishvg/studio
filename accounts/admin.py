@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
+from .models import Profile
 
 
 class CustomeAdmin(UserAdmin):
@@ -27,3 +28,5 @@ class CustomeAdmin(UserAdmin):
 
 admin.site.register(get_user_model(), CustomeAdmin)
 admin.site.unregister(Group)
+
+admin.site.register(Profile)

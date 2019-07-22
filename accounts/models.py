@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
 
@@ -71,3 +74,31 @@ class CustomeUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    GENDER_CHOICES = [
+        ('MALE', 'Male'),
+        ('FEMALE', 'Female'),
+    ]
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True, blank=True)
+    dob = models.DateField(verbose_name="Date of Birth", null=True, blank=True)
+    email = models.EmailField(max_length=254, null=True, blank=True)
+    phone = models.CharField(max_length=16, null=True, blank=True)
+    about = models.TextField(null=True, blank=True)
+    hobbies = models.CharField(max_length=255, null=True, blank=True)
+    address_line1 = models.CharField(max_length=255, null=True, blank=True)
+    address_line2 = models.CharField(max_length=255, null=True, blank=True)
+    zipcode = models.CharField(max_length=15, null=True, blank=True)
+    date_created = models.DateField(auto_now_add=True)
+    is_premimum = models.BooleanField(default=False)
+    images = models.ImageField(upload_to='resources', null=True, blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def update_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+        instance.profile.save()
