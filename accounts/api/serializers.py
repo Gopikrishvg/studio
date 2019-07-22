@@ -19,6 +19,20 @@ class UserSerializer(ModelSerializer):
         return user
 
 
+class UserUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('last_login', 'is_active', 'is_buser', 'is_staff')
+
+    def update(self, instance, validated_data):
+        instance.last_login = validated_data.get('last_login', instance.last_login)
+        instance.is_active = validated_data.get('is_active', instance.is_active)
+        instance.is_buser = validated_data.get('is_buser', instance.is_buser)
+        instance.is_staff = validated_data.get('is_staff', instance.is_staff)
+        instance.save()
+        return instance
+
+
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True, max_length=100)
     password = serializers.CharField(required=True, max_length=100)

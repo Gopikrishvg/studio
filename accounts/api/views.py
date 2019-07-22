@@ -2,10 +2,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model, login, logout
-from .serializers import UserSerializer, UserLoginSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, UserLoginSerializer
 
 User = get_user_model()
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -38,3 +38,9 @@ class UserListCreateView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+
+class UserRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
