@@ -5,12 +5,16 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model, login, logout
-from accounts.models import Profile
+from accounts.models import Profile, Event, Studio, StudioImage, StudioVideo
 from .serializers import (
     UserSerializer,
     UserUpdateSerializer,
     UserLoginSerializer,
-    ProfileSerializer
+    ProfileSerializer,
+    EventSerializer,
+    StudioSerializer,
+    StudioImageSerializer,
+    StudioVideoSerializer
 )
 
 User = get_user_model()
@@ -61,4 +65,40 @@ class ProfileListCreateView(ListCreateAPIView):
 class ProfileRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class EventListCreateView(ListCreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class EventRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class StudioListCreateView(ListCreateAPIView):
+    queryset = Studio.objects.all()
+    serializer_class = StudioSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class StudioRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = Studio.objects.all()
+    serializer_class = StudioSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class StudioImageListCreateView(ListCreateAPIView):
+    queryset = StudioImage.objects.all()
+    serializer_class = StudioImageSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class StudioImageRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = StudioImage.objects.all()
+    serializer_class = StudioImageSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

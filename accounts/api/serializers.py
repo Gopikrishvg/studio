@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import get_user_model, authenticate
-from accounts.models import Profile
+from accounts.models import Profile, Studio, StudioImage, StudioVideo, Event
 
 User = get_user_model()
 
@@ -62,3 +62,30 @@ class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+
+class EventSerializer(ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+
+class StudioImageSerializer(ModelSerializer):
+    class Meta:
+        model = StudioImage
+        fields = '__all__'
+
+
+class StudioVideoSerializer(ModelSerializer):
+    class Meta:
+        model = StudioVideo
+        fields = ('image', 'studio')
+
+
+class StudioSerializer(ModelSerializer):
+    images = StudioImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Studio
+        fields = ('name', 'seats', ' latidute', 'longidute',
+                  'specility', 'images' 'property_holder')

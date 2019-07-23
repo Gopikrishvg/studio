@@ -77,6 +77,7 @@ class CustomeUser(AbstractBaseUser):
 
 
 class Profile(models.Model):
+    '''Profile instance to store user persional information '''
     GENDER_CHOICES = [
         ('MALE', 'Male'),
         ('FEMALE', 'Female'),
@@ -102,3 +103,47 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
         instance.profile.save()
+
+
+class Event(models.Model):
+    event_name = models.CharField(max_length=255)
+    date_of_event = models.DateField()
+    description = models.TextField()
+    type = models.CharField(max_length=50)
+    casting = models.CharField(max_length=500)
+    cast_per_member = models.FloatField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class EventBooking(models.Model):
+    pass
+
+
+class Studio(models.Model):
+    name = models.CharField(max_length=255)
+    seats = models.IntegerField()
+    latidute = models.FloatField()
+    longitude = models.FloatField()
+    specility = models.CharField(max_length=255)
+    cost_per_hour = models.FloatField()
+    property_holder = models.ForeignKey(settings.AUTH_USER_MODEL,   on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class StudioImage(models.Model):
+    image = models.ImageField(upload_to='studio-img')
+    studio = models.ForeignKey(Studio, related_name='images', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.image
+
+
+class StudioVideo(models.Model):
+    video = models.FileField(upload_to='studio-video')
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
+
+
+class StudioBooking(models.Model):
+    pass
