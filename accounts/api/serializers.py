@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import get_user_model, authenticate
+from accounts.models import Profile
 
 User = get_user_model()
 
@@ -55,3 +56,9 @@ class UserLoginSerializer(serializers.Serializer):
             msg = "Must provide username and password both"
             raise serializers.ValidationError(msg)
         return data
+
+
+class ProfileSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
