@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model, login, logout
-from accounts.models import Profile, Event, Studio, StudioImage, StudioVideo
+from accounts.models import Profile, Event, Studio
 from .serializers import (
     UserSerializer,
     UserUpdateSerializer,
@@ -13,8 +13,6 @@ from .serializers import (
     ProfileSerializer,
     EventSerializer,
     StudioSerializer,
-    StudioImageSerializer,
-    StudioVideoSerializer
 )
 
 User = get_user_model()
@@ -89,16 +87,4 @@ class StudioListCreateView(ListCreateAPIView):
 class StudioRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-
-
-class StudioImageListCreateView(ListCreateAPIView):
-    queryset = StudioImage.objects.all()
-    serializer_class = StudioImageSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-
-
-class StudioImageRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
-    queryset = StudioImage.objects.all()
-    serializer_class = StudioImageSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

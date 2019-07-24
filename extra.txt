@@ -1,0 +1,49 @@
+# fields = ('name', 'seats', 'latitude', 'longitude', 'specility', 'image1', 'image2',
+#           'image3', 'image4', 'image5', 'video', 'property_holder', 'cost_per_hour')
+
+# def create(self, validated_data):
+#     image_data = validated_data.pop('images')
+#     print(image_data)
+#     studio = Studio.objects.create(**validated_data)
+#     for img in image_data:
+#         image, created = img.objects.get_or_create(image=img['image'], studio=img['studio'])
+#         studio.images.add(image)
+#     return studio
+#
+# def update(self, instance, validated_data):
+#     image_data = validated_data.pop('images')
+#     instance.name = validated_data.get('name', instance.name)
+#     instance.seats = validated_data.get('seats', instance.seats)
+#     instance.latitude = validated_data.get('latitude', instance.latitude)
+#     instance.longitude = validated_data.get('longitude', instance.longitude)
+#     instance.speciality = validated_data.get('speciality', instance.speciality)
+#     instance.property_holder = validated_data.get('property_holder', instance.property_holder)
+#     images = []
+#     for img in image_data:
+#         image, created = img.object.get_or_create(image=img['image'], studio=img['studio'])
+#         images.append(image)
+#     instance.save()
+#     return instance
+
+class StudioImage(models.Model):
+    image = models.ImageField(upload_to='studio-img')
+    studio = models.ForeignKey(Studio, related_name='images', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.image
+
+
+class StudioVideo(models.Model):
+    video = models.FileField(upload_to='studio-video')
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
+
+    class StudioImageListCreateView(ListCreateAPIView):
+        queryset = StudioImage.objects.all()
+        serializer_class = StudioImageSerializer
+        permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+    class StudioImageRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+        queryset = StudioImage.objects.all()
+        serializer_class = StudioImageSerializer
+        permission_classes = (IsAuthenticatedOrReadOnly,)

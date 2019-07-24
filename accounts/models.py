@@ -122,27 +122,20 @@ class EventBooking(models.Model):
 class Studio(models.Model):
     name = models.CharField(max_length=255)
     seats = models.IntegerField()
-    latidute = models.FloatField()
+    latitude = models.FloatField()
     longitude = models.FloatField()
-    specility = models.CharField(max_length=255)
     cost_per_hour = models.FloatField()
+    specility = models.CharField(max_length=255, null=True, blank=True)
+    image1 = models.ImageField(upload_to='studio-img', null=True, blank=True)
+    image2 = models.ImageField(upload_to='studio-img', null=True, blank=True)
+    image3 = models.ImageField(upload_to='studio-img', null=True, blank=True)
+    image4 = models.ImageField(upload_to='studio-img', null=True, blank=True)
+    image5 = models.ImageField(upload_to='studio-img', null=True, blank=True)
+    video = models.FileField(upload_to='studio-video', null=True, blank=True)
     property_holder = models.ForeignKey(settings.AUTH_USER_MODEL,   on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-
-
-class StudioImage(models.Model):
-    image = models.ImageField(upload_to='studio-img')
-    studio = models.ForeignKey(Studio, related_name='images', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.image
-
-
-class StudioVideo(models.Model):
-    video = models.FileField(upload_to='studio-video')
-    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
 
 
 class StudioBooking(models.Model):

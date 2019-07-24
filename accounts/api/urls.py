@@ -11,8 +11,6 @@ from .views import (
     EventRetrieveUpdateDeleteView,
     StudioListCreateView,
     StudioRetrieveUpdateDeleteView,
-    StudioImageListCreateView,
-    StudioImageRetrieveUpdateDeleteView,
 )
 
 urlpatterns = [
@@ -29,7 +27,5 @@ urlpatterns = [
     url(r'^event/(?P<pk>\d+)/$', EventRetrieveUpdateDeleteView.as_view(), name='event'),
     url(r'^studio/$', StudioListCreateView.as_view(), name='profile'),
     url(r'^studio/(?P<pk>\d+)/$', StudioRetrieveUpdateDeleteView.as_view(), name='studio'),
-    url(r'^studioimg/$', StudioImageListCreateView.as_view(), name='studiio-img'),
-    url(r'^studioimg/(?P<pk>\d+)/$', StudioImageRetrieveUpdateDeleteView.as_view(), name='studio-img'),
 
 ]
