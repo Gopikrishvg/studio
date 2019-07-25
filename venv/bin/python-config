@@ -1,4 +1,4 @@
-#!/Users/apple/Desktop/projects/python/studio/venv/bin/python
+#!/home/gopikrishan/Desktop/studio/venv/bin/python
 
 import sys
 import getopt

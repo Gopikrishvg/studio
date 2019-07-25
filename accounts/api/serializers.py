@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.password_validation import validate_password
 from accounts.models import Profile, Studio,  Event
 
 User = get_user_model()
@@ -32,6 +33,43 @@ class UserUpdateSerializer(ModelSerializer):
         instance.is_staff = validated_data.get('is_staff', instance.is_staff)
         instance.save()
         return instance
+
+class PasswordResetSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
+
+    # password=serializers.CharField(max_length=255)
+    # repeat_password=serializers.CharField(max_length=255)
+    #
+    # def validate(self, data):
+    #     if data['password']!=data['repeat_password']:
+    #         raise serializers.ValidationError("password and repeat password must be same")
+    #     return data
+    #
+    # def validate_password(self, value):
+    #     if value is None:
+    #         raise serializers.ValidationError("This field must not be blank")
+    #     return value
+    #
+    # def validate_repeat_password(self, value):
+    #     if value is None:
+    #         raise serializers.ValidationError("This field must not be blank")
+    #     return value
+    #
+    # def update(self, instance, validated_data):
+    #     password=validated_data.get('password')
+    #     repeat_password=validated_data.get('repeat_password')
+    #     instance.set_password(password)
+    #     instance.save()
+    #     return instance
+    #
+    # @property
+    # def data(self):
+    #     return {'Success': True}
 
 
 class UserLoginSerializer(serializers.Serializer):
