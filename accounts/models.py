@@ -104,6 +104,21 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         instance.profile.save()
 
+    def __str__(self):
+        if self.first_name is not None:
+            return self.first_name
+        return "Add first name to your profile "
+
+
+class Premium(models.Model):
+    choice = ()
+    cost = models.FloatField()
+    date = models.DateField()
+
+
+class Membership(models.Model):
+    pass
+
 
 class Event(models.Model):
     event_name = models.CharField(max_length=255)
@@ -113,6 +128,9 @@ class Event(models.Model):
     casting = models.CharField(max_length=500)
     cast_per_member = models.FloatField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.event_name
 
 
 class EventBooking(models.Model):

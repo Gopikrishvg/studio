@@ -62,6 +62,7 @@ class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+        extra_kwargs = {'is_premimum': {'read_only': True}}
 
 
 class EventSerializer(ModelSerializer):
@@ -74,3 +75,10 @@ class StudioSerializer(ModelSerializer):
     class Meta:
         model = Studio
         fields = '__all__'
+
+
+class MemberSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id', 'is_premimum')
+        extra_kwargs = {'id': {'read_only': True}}

@@ -2,7 +2,11 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+    RetrieveUpdateAPIView,
+)
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model, login, logout
 from accounts.models import Profile, Event, Studio
@@ -13,6 +17,7 @@ from .serializers import (
     ProfileSerializer,
     EventSerializer,
     StudioSerializer,
+    MemberSerializer,
 )
 
 User = get_user_model()
@@ -63,6 +68,12 @@ class ProfileListCreateView(ListCreateAPIView):
 class ProfileRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class MemberRetrieveUpdateView(RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = MemberSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
