@@ -47,3 +47,5 @@ class StudioVideo(models.Model):
         queryset = StudioImage.objects.all()
         serializer_class = StudioImageSerializer
         permission_classes = (IsAuthenticatedOrReadOnly,)
+
+Django doesn't provide a DB representation for AnonymousUser.
